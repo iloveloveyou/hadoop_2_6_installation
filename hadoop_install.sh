@@ -19,11 +19,13 @@ cd /usr/local/
 #Download hadoop from source
 sudo wget http://apache.mirrors.tds.net/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz
 
-#Rename hadoop folder 
-sudo mv hadoop-2.6.0.tar.gz hadoop.tar.gz
-
 #Extract tar file
-tar -xzf hadoop-2.4.0.tar.gz 
+sudo tar -xzf hadoop-2.4.0.tar.gz 
+
+#Rename hadoop folder 
+sudo mv hadoop-2.6.0 hadoop
+
+
 
 
 
