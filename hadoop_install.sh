@@ -10,7 +10,7 @@ sudo apt-get update
 #Setup Automated Installation
 echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections
 
-#Install Java 7
+#Install Java 8
 sudo apt-get install oracle-java8-installer -y
 
 #Change Directoy to /usr/local
@@ -25,7 +25,6 @@ sudo mv hadoop-2.6.0.tar.gz hadoop.tar.gz
 #Extract tar file
 tar -xzf hadoop-2.4.0.tar.gz 
 
-tar -xzf hadoop-2.4.0.tar.gz 
 
 
 
