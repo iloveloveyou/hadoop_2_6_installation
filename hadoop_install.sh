@@ -30,13 +30,46 @@ sudo mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
 sudo chrown hduser:hadoop -R /usr/local/hadoop
 sudo chown hduser:hadoop -R /usr/local/hadoop_tmp/
 
+#Login in with hduser
+sudo su hduser
+
+
 #Disable IPV6
 echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
 echo net.ipv6.conf.default.disable_ipv6 = 1 >> /etc/sysctl.conf
 echo net.ipv6.conf.lo.disable_ipv6 = 1 >> /etc/sysctl.conf
 
-#Login in with hduser
-sudo su hduser
+#Edit core-site.xml
+#Remove configuration tag 
+sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/core-site.xml
+
+#Add new configuration
+echo "<configuration>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo  "<property>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo    "<name>dfs.replication</name>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo    "<value>1</value>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo  "</property>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo "</configuration>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+
+#Edit hdfs-sit.xml
+#Remove configuration tag 
+sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
+#Add new configuration
+echo "<configuration>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "<propery>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo   "<name>dfs.replication</name>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo   "<value>1</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "<propery"> >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo   "<name>dfs.namenode.name.dir</name>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo   "<value>file:/usr/local/hadoop_tmp/hdfs/namenode</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml>> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml 
+echo  "<property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo    "<name>dfs.datanode.data.dir</name>" 
+echo    "<value>file:/usr/local/hadoop_tmp/hdfs/datanode</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "</property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+
 
 #Generate ssh-keygen for hduser
 ssh-keygen -t rsa -P ""
@@ -49,8 +82,10 @@ echo \# -- HADOOP ENVIRONMENT VARIABLES START -- \# >> $HOME/.bashrc
 echo export JAVA_HOME=/usr/lib/jvm/java-8-oracle >> $HOME/.bashrc
 echo export HADOOP_HOME=/usr/local/hadoop >> $HOME/.bashrc
 echo export PATH=\$PATH:\$HADOOP_HOME/bin >> $HOME/.bashrc
-echo export PATH=\$PATH:\$HADOOP_HOME/sbin >> $HOME/.bashrc
-echo export HADOOP_MAPRED_HOME=\$HADOOP_HOME >> $HOME/.bashrc
+echo export PATH=\$PATH:\$HADOOP_HOME/sbin >> $HOME/.bashrc   <property>echo
+" <name>dfs"".datanode.data.dir</nameecho >
+"   <value>file:/usr/local/hadoop_tmp/hdfs/datanode</value>echo"
+"</property>"echo   "echo export" HADOOP_MAPRED_HOME=\$HADOOP_HOME >> $HOME/.bashrc
 echo export HADOOP_COMMON_HOME=\$HADOOP_HOME >> $HOME/.bashrc
 echo export HADOOP_HDFS_HOME=\$HADOOP_HOME >> $HOME/.bashrc
 echo export YARN_HOME=\$HADOOP_HOME >> $HOME/.bashrc
