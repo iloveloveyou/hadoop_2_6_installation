@@ -31,9 +31,9 @@ sudo chrown hduser:hadoop -R /usr/local/hadoop
 sudo chown hduser:hadoop -R /usr/local/hadoop_tmp/
 
 #Disable IPV6
-echo "net.ipv6.conf.all.disable_ipv6 = 1" >> /etc/sysctl.conf
-echo "net.ipv6.conf.default.disable_ipv6 = 1" >> /etc/sysctl.conf
-echo "net.ipv6.conf.lo.disable_ipv6 = 1" >> /etc/sysctl.conf
+echo net.ipv6.conf.all.disable_ipv6 = 1 >> /etc/sysctl.conf
+echo net.ipv6.conf.default.disable_ipv6 = 1 >> /etc/sysctl.conf
+echo net.ipv6.conf.lo.disable_ipv6 = 1 >> /etc/sysctl.conf
 
 #Login in with hduser
 sudo su hduser
@@ -43,6 +43,20 @@ ssh-keygen -t rsa -P ""
 
 #Copy id_rsa.pub to authorizedkeys from hduser
 cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
+
+#Setup Hadoop enviornmental variables 
+echo \# -- HADOOP ENVIRONMENT VARIABLES START -- \# >> $HOME/.bashrc
+echo export JAVA_HOME=/usr/lib/jvm/java-8-oracle >> $HOME/.bashrc
+echo export HADOOP_HOME=/usr/local/hadoop >> $HOME/.bashrc
+echo export PATH=\$PATH:\$HADOOP_HOME/bin >> $HOME/.bashrc
+echo export PATH=\$PATH:\$HADOOP_HOME/sbin >> $HOME/.bashrc
+echo export HADOOP_MAPRED_HOME=\$HADOOP_HOME >> $HOME/.bashrc
+echo export HADOOP_COMMON_HOME=\$HADOOP_HOME >> $HOME/.bashrc
+echo export HADOOP_HDFS_HOME=\$HADOOP_HOME >> $HOME/.bashrc
+echo export YARN_HOME=\$HADOOP_HOME >> $HOME/.bashrc
+echo export HADOOP_COMMON_LIB_NATIVE_DIR=\$HADOOP_HOME/lib/native >> $HOME/.bashrc
+echo export HADOOP_OPTS=\"-Djava.library.path=$HADOOP_HOME/lib\" >> $HOME/.bashrc
+echo \# -- HADOOP ENVIRONMENT VARIABLES END -- \# >> $HOME/.bashrc
 
 #Change Directoy to /usr/local
 cd /usr/local/
