@@ -1,4 +1,5 @@
 #!/bin/bash
+#hadoop installation Source: http://pingax.com/install-hadoop2-6-0-on-ubuntu/
 #Java Installation Source: http://www.webupd8.org/2012/09/install-oracle-java-8-in-ubuntu-via-ppa.html
 
 #Add java 8 repository
@@ -46,12 +47,12 @@ sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoo
 #Add new configuration
 echo "<configuration>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
 echo  "<property>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
-echo    "<name>dfs.replication</name>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
-echo    "<value>1</value>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo    "<name>fs.default.name</name>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
+echo    "<value>hdfs://localhost:9000</value>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
 echo  "</property>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
 echo "</configuration>" >> /usr/local/hadoop/etc/hadoop/core-site.xml
 
-#Edit hdfs-sit.xml
+#Edit hdfs-site.xml
 #Remove configuration tag 
 sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 
@@ -69,7 +70,35 @@ echo  "<property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo    "<name>dfs.datanode.data.dir</name>" >> >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo    "<value>file:/usr/local/hadoop_tmp/hdfs/datanode</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo  "</property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml >>>>  /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo "</configuration>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 
+#Edit yarn-site.xml
+#Remove configuration tag 
+sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/yarn-site.xml
+
+echo "<configuration>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo  "<propery>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo   "<name>yarn.nodemanager.aux-services</name>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo   "<value>mapreduce_shuffle</value>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo  "<propery>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo   "<name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo   "<value>org.apache.hadoop.mapred.ShuffleHandler</value>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+echo "</configuration>" >> /usr/local/hadoop/etc/hadoop/yarn-site.xml
+
+#Create mapred-site.xml from mapred-site.xml.template
+cp /usr/local/hadoop/etc/hadoop/mapred-site.xml.template /usr/local/hadoop/etc/hadoop/mapred-site.xml
+
+#Edit mapred-site.xml
+#Remove configuration tag 
+sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo "<configuration>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo  "<propery>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo   "<name>mapreduce.framework.name</name>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo   "<value>yarn</value>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
+echo "</configuration>" >> /usr/local/hadoop/etc/hadoop/mapred-site.xml
 
 #Generate ssh-keygen for hduser
 ssh-keygen -t rsa -P ""
@@ -111,7 +140,14 @@ echo export JAVA_HOME=/usr/bin/java >> /usr/local/hadoop/etc/hadoop/hadoop-env.s
 echo "#The hadoop implementation to use" >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
 echo export HADOOP_PREFIX=/usr/local/hadoop
 
+#Format namenode
+hduser@pingax:hdfs namenode -format
 
+#Start dfs
+start-dfs.sh
+
+#Start yarn
+start-yarn.sh
 
 
 
