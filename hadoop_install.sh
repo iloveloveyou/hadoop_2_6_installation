@@ -28,7 +28,7 @@ sudo mkdir -p /usr/local/hadoop_tmp/hdfs/namenode
 sudo mkdir -p /usr/local/hadoop_tmp/hdfs/datanode
 
 #Assign ownership to hadoop group
-sudo chrown hduser:hadoop -R /usr/local/hadoop
+sudo chown hduser:hadoop -R /usr/local/hadoop
 sudo chown hduser:hadoop -R /usr/local/hadoop_tmp/
 
 #Login in with hduser
