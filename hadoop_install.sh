@@ -66,9 +66,9 @@ echo   "<name>dfs.namenode.name.dir</name>" >> /usr/local/hadoop/etc/hadoop/hdfs
 echo   "<value>file:/usr/local/hadoop_tmp/hdfs/namenode</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml>> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo  "</propery>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml 
 echo  "<property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
-echo    "<name>dfs.datanode.data.dir</name>" 
+echo    "<name>dfs.datanode.data.dir</name>" >> >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo    "<value>file:/usr/local/hadoop_tmp/hdfs/datanode</value>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
-echo  "</property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml
+echo  "</property>" >> /usr/local/hadoop/etc/hadoop/hdfs-site.xml >>>>  /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 
 
 #Generate ssh-keygen for hduser
