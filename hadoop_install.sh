@@ -149,6 +149,18 @@ start-dfs.sh
 #Start yarn
 start-yarn.sh
 
+#Verify Hadoop daemons
+jps
+
+
+#Track Hadoop MapReduce
+echo "If you wish to track Hadoop Mapreduce right-click here http://localhost:8088"
+
+#Hadoop Overview
+echo "If you wish to view the Hadoop overview right-click here http://localhost:50070"
+
+
+
 
 
 
