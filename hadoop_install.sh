@@ -13,7 +13,7 @@ sudo adduser hduser sudo
 
 #Install SSH
 echo "install ssh"
-sudo apt-get install openssh-server
+sudo apt-get install openssh-server -y
 
 #Configure SSH
 echo "configure ssh"
@@ -76,12 +76,12 @@ EOL
 
 #Update hadoop-env.sh
 echo "write to hadoop-env"
-echo JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh
+sudo su -c 'echo JAVA_HOME=/usr/lib/jvm/java-8-oracle >> /usr/local/hadoop/etc/hadoop/hadoop-env.sh'
 
 #Update core-site.xml
 #Remove configuration tag
 
-cat >>/usr/local/hadoop/etc/hadoop/core-site.xml <<EOL
+sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/core-site.xml <<EOL
 echo "write to core-site.xml"
 <configuration>
 	<property>
@@ -89,13 +89,13 @@ echo "write to core-site.xml"
 		<value>hdfs://localhost:9000</value>
 	</property>
 </configuration>
-EOL
+EOL'
 
 #Update hdfs-site.xml
 #Remove configuration tag
 #sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/hdfs-site.xml
 echo "Write to hdfs-site.xml"
-cat >>/usr/local/hadoop/etc/hadoop/hdfs-site.xml <<EOL
+sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/hdfs-site.xml <<EOL
 <configuration>
 	<property>
 	      <name>dfs.replication</name>
@@ -110,13 +110,13 @@ cat >>/usr/local/hadoop/etc/hadoop/hdfs-site.xml <<EOL
 	      <value>file:/usr/local/hadoop_tmp/hdfs/datanode</value>
 	 </property>
 </configuration>
-EOL
+EOL'
 
 #Update yarn-site.xml
 #Remove configuration tag
 #sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/yarn-site.xml
 
-cat >>/usr/local/hadoop/etc/hadoop/yarn-site.xml <<EOL
+sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/yarn-site.xml <<EOL
 echo "write to yarn-site.xml"
 <configuration>
 	<property>
@@ -128,21 +128,21 @@ echo "write to yarn-site.xml"
 	      <value>org.apache.hadoop.mapred.ShuffleHandler</value>
 	</property>
 </configuration>
-EOL
+EOL'
 
 #Update mapred-site.xml
 #Remove configuration tag
 #sudo sed -i '/<configuration>/,/<\/configuration>/d' /usr/local/hadoop/etc/hadoop/mapred-site.xml
 
 echo "write to mapred-site.xml"
-cat >>/usr/local/hadoop/etc/hadoop/mapred-site.xml <<EOL
+sudo su -c 'cat >>/usr/local/hadoop/etc/hadoop/mapred-site.xml <<EOL
 <configuration>
 	<property>
 	      <name>mapreduce.framework.name</name>
 	      <value>yarn</value>
 	</property>
 </configuration>
-EOL
+EOL'
 
 #Format Namenode
 echo "format namenode"
