@@ -10,15 +10,18 @@ echo "Create hadoop group and user"
 sudo addgroup hadoop
 sudo adduser --ingroup hadoop hduser
 sudo adduser hduser sudo
-
+sudo su hduser
+cd
 #Install SSH
 echo "install ssh"
 sudo apt-get install openssh-server -y
 
 #Configure SSH
 echo "configure ssh"
-sudo su hduser
-ssh-keygen -t rsa -P ""
+
+echo -e  'y\n'| ssh-keygen -t rsa -P "" -f $HOME/.ssh/id_rsa.pub
+wait
+echo "copy ssh keys"
 cat $HOME/.ssh/id_rsa.pub >> $HOME/.ssh/authorized_keys
 
 #Disable IPV6
